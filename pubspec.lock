@@ -509,9 +509,11 @@ packages:
   state_gen:
     dependency: "direct main"
     description:
-      path: "../state_gen"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "610fbabb589c86d57c14ffa8f29f920e19c517f9"
+      url: "https://github.com/rodrigoaddor/state_gen.git"
+    source: git
     version: "0.3.1"
   stream_channel:
     dependency: transitive
