@@ -18,7 +18,7 @@ class CategoriesIntroPage extends StatelessWidget {
     final data = context.watch<AppData>();
 
     return Scaffold(
-      backgroundColor: Colors.blue[700],
+      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

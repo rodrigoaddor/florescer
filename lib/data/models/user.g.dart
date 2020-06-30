@@ -13,6 +13,9 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     city: json['city'] as String,
     state: json['state'] as String,
+    answers: (json['answers'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, (e as List)?.map((e) => e as int)?.toList()),
+    ),
   );
 }
 
@@ -22,4 +25,5 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'email': instance.email,
       'city': instance.city,
       'state': instance.state,
+      'answers': instance.answers,
     };

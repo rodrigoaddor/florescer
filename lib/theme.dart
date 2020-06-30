@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData buildTheme() => ThemeData.light().copyWith(
-      scaffoldBackgroundColor: Colors.blue[700],
+      primaryColor: Colors.purple[300],
       hintColor: Colors.white,
       cursorColor: Color.lerp(Colors.white, Colors.blue[700], 0.4),
       inputDecorationTheme: InputDecorationTheme(

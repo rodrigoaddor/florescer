@@ -15,7 +15,17 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[700],
+      backgroundColor: Theme.of(context).primaryColor,
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: Text('Ver Respostas'),
+              onTap: () => Navigator.pushNamed(context, '/admin'),
+            )
+          ],
+        ),
+      ),
       body: Builder(
         builder: (context) => Center(
           child: Column(

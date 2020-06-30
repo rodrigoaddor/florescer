@@ -9,8 +9,9 @@ class UserData {
   final String email;
   final String city;
   final String state;
+  final Map<String, List<int>> answers;
 
-  UserData({this.id, this.name, this.email, this.city, this.state});
+  UserData({this.id, this.name, this.email, this.city, this.state, this.answers});
 
   factory UserData.fromJson(Map<String, dynamic> json) => _$UserDataFromJson(json);
   Map<String, dynamic> toJson() => _$UserDataToJson(this);

@@ -1,3 +1,4 @@
+import 'package:florescer/page/admin.dart';
 import 'package:florescer/page/category.dart';
 import 'package:florescer/page/intro/categories.dart';
 import 'package:florescer/page/intro/intro.dart';
@@ -8,6 +9,7 @@ final Map<String, WidgetBuilder> routes = {
   '/intro': (context) => IntroPage(),
   '/intro/categories': (context) => CategoriesIntroPage(),
   '/intro/register': (context) => RegisterIntroPage(),
+  '/admin': (context) => AdminPage()
 };
 
 Route routeGenerator(RouteSettings settings) {

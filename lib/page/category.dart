@@ -116,7 +116,7 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
               size: Size.square(200),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.blue[700],
+                  color: Colors.purple[300],
                   boxShadow: kElevationToShadow[6],
                   borderRadius: BorderRadius.circular(128),
                 ),
@@ -226,6 +226,8 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   RaisedButton(
+                    color: theme.primaryColor,
+                    textColor: Colors.white,
                     child: AnimatedSwitcher(
                       duration: Duration(milliseconds: 200),
                       child: Text(

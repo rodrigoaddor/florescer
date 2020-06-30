@@ -42,6 +42,7 @@ class _RegisterIntroPageState extends State<RegisterIntroPage> {
     return Form(
       child: Builder(
         builder: (context) => Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
           appBar: AppBar(
             title: Text('Cadastro'),
             centerTitle: true,
