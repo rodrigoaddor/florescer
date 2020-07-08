@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:florescer/data/data.dart';
 import 'package:florescer/data/firebase.dart';
 import 'package:florescer/data/state.dart';
 import 'package:florescer/router.dart';
@@ -39,7 +40,7 @@ class FlorescerApp extends StatelessWidget {
     return MaterialApp(
       title: 'Florescer',
       routes: routes,
-      initialRoute: '/intro',
+      initialRoute: context.watch<AppData>().user.isRegistered ? '/intro/categories' : '/intro',
       theme: buildTheme(),
       onGenerateRoute: routeGenerator,
     );

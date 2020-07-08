@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:florescer/data/data.dart';
-import 'package:florescer/data/state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +33,7 @@ class _RegisterIntroPageState extends State<RegisterIntroPage> {
       'state': state.text,
     }, merge: true);
 
-    Navigator.pushReplacementNamed(context, '/category/${context.read<AppState>().category}');
+    Navigator.pushReplacementNamed(context, '/intro/categories');
   }
 
   @override
@@ -95,7 +94,7 @@ class _RegisterIntroPageState extends State<RegisterIntroPage> {
                             autovalidate: city.text.length > 0,
                             validator: this.validateRequired,
                             style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white24),
                                 borderRadius: BorderRadius.horizontal(left: Radius.circular(6)),

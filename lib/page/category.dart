@@ -40,47 +40,8 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
 
   void handleNext() async {
     if (tabController.index >= tabController.length - 1) {
-      BuildContext dialogContext;
-
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          dialogContext = context;
-          return AlertDialog(
-            title: Text('Salvando respostas...'),
-            content: IntrinsicHeight(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32),
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            ),
-          );
-        },
-      );
-
-      await Future.wait([
-        save(),
-        Future.delayed(Duration(seconds: 1)),
-      ]);
-
-      Navigator.pop(dialogContext);
-
-      await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Perguntas concluídas'),
-          actions: [
-            FlatButton(
-              child: Text('Voltar ao início'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        ),
-      );
-      Navigator.popUntil(context, (route) => route.isFirst);
+      await save();
+      Navigator.popUntil(context, ModalRoute.withName('/intro/categories'));
     } else {
       tabController.animateTo(tabController.index + 1);
       this.setState(() {});
@@ -88,11 +49,9 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
   }
 
   Future<void> save() async {
-    print(category.id.runtimeType);
-    await db.collection('users').document(context.read<AppData>().user.id).setData({
-      'answers': {
-        category.id: answers
-      },
+    final userID = context.read<AppData>().user.id;
+    await db.collection('users').document(userID).setData({
+      'answers': {category.id: answers},
     }, merge: true);
   }
 

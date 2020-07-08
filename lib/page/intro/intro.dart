@@ -85,8 +85,8 @@ class IntroPage extends StatelessWidget {
                 width: 140,
                 height: 40,
                 child: RaisedButton(
-                  child: Text('Próximo'),
-                  onPressed: () => Navigator.pushNamed(context, '/intro/categories'),
+                  child: Text('Cadastrar'),
+                  onPressed: () => Navigator.pushNamed(context, '/intro/register'),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(64),
                   ),

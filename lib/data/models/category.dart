@@ -8,6 +8,7 @@ class QuestionCategory {
   final String title;
   final String shortTitle;
   final String description;
+  @JsonKey(defaultValue: [])
   final List<String> questions;
 
   QuestionCategory({

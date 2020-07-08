@@ -9,6 +9,7 @@ class UserData {
   final String email;
   final String city;
   final String state;
+  @JsonKey(defaultValue: [])
   final Map<String, List<int>> answers;
 
   UserData({this.id, this.name, this.email, this.city, this.state, this.answers});

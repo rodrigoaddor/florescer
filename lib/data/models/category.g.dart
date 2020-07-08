@@ -12,7 +12,8 @@ QuestionCategory _$QuestionCategoryFromJson(Map<String, dynamic> json) {
     title: json['title'] as String,
     shortTitle: json['shortTitle'] as String,
     description: json['description'] as String,
-    questions: (json['questions'] as List)?.map((e) => e as String)?.toList(),
+    questions:
+        (json['questions'] as List)?.map((e) => e as String)?.toList() ?? [],
   );
 }
 
