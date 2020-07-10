@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:florescer/data/data.dart';
 import 'package:florescer/data/models/category.dart';
 import 'package:florescer/widget/confirm_dialog.dart';
-import 'package:florescer/widget/wheel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:florescer/utils/extensions.dart' show ListAverage;
 
 final List<String> messages = [
   'Para passarmos para o próximo passo, te apresento alguns pilares '
@@ -86,90 +83,66 @@ class CategoriesIntroPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            data.user.answers == null || data.user.answers.length == 0
-                ? SizedBox.fromSize(
-                    size: Size.square(200),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: kElevationToShadow[6],
-                        borderRadius: BorderRadius.circular(128),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(28),
-                        child: Image.asset('assets/images/logo.png'),
-                      ),
-                    ),
-                  )
-                : WheelOfLife(
-                    Map.fromEntries(
-                      data.categories.map(
-                        (category) => MapEntry<String, double>(
-                          category.shortTitle,
-                          (data.user.answers[category.id] ?? []).average(),
-                        ),
-                      ),
-                    ),
-                    colors: {
-                      'Emocional': Colors.lightBlue[300],
-                      'Profissional': Colors.amber[500],
-                      'Relacional': Colors.teal[600],
-                      'Pessoal': Colors.purple[700],
-                    },
-                    defaultTextColor: Colors.white,
-                    backgroundColor: Colors.white12,
-                  ),
+            SizedBox.fromSize(
+              size: Size.square(200),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: kElevationToShadow[6],
+                  borderRadius: BorderRadius.circular(128),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(28),
+                  child: Image.asset('assets/images/logo.png'),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 28),
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   style: TextStyle(fontSize: 16),
-                  text: messages[data.user.answers.length],
+                  text: messages[0],
                 ),
               ),
             ),
-            if (data.user.answers != null && data.user.answers.length == data.categories.length)
-              Builder(builder: (context) {
-                final average = data.user.answers.values.expand<num>((i) => i).toList().average();
-                return Text(
-                  'Diagnóstico: ${average.toStringAsFixed(0)}/10\n${diagnostic(average)}',
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white),
-                  textAlign: TextAlign.center,
-                );
-              }),
-            data.user.answers == null || data.user.answers.length != data.categories.length
-                ? IntrinsicWidth(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        for (final category in data.categories)
-                          buildCategoryButton(
-                            context,
-                            category,
-                            data.user.answers != null && data.user.answers.containsKey(category.id),
-                          )
-                      ],
+            IntrinsicWidth(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (final category in data.categories)
+                    buildCategoryButton(
+                      context,
+                      category,
+                      data.user.answers != null && data.user.answers.containsKey(category.id),
                     ),
-                  )
-                : RaisedButton(
-                    child: Text(
-                      'Concluído',
+                  if (data.user.answers != null && data.user.answers.length == data.categories.length)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: RaisedButton(
+                        child: Text(
+                          'Continuar',
+                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(64)),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/intro/satisfaction');
+                          // final reset = await showDialog(
+                          //   context: context,
+                          //   builder: (context) => ConfirmDialog(title: 'Resetar respostas'),
+                          // );
+                          // if (reset) {
+                          //   final db = Firestore.instance;
+                          //   await db.collection('users').document(data.user.id).setData({
+                          //     'answers': {},
+                          //   }, merge: true);
+                          // }
+                        },
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(64)),
-                    onPressed: () async {
-                      final reset = await showDialog(
-                        context: context,
-                        builder: (context) => ConfirmDialog(title: 'Resetar respostas'),
-                      );
-                      if (reset) {
-                        final db = Firestore.instance;
-                        await db.collection('users').document(data.user.id).setData({
-                          'answers': {},
-                        }, merge: true);
-                      }
-                    },
-                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

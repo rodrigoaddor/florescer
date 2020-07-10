@@ -11,8 +11,9 @@ class UserData {
   final String state;
   @JsonKey(defaultValue: [])
   final Map<String, List<int>> answers;
+  final int satisfaction;
 
-  UserData({this.id, this.name, this.email, this.city, this.state, this.answers});
+  UserData({this.id, this.name, this.email, this.city, this.state, this.answers, this.satisfaction});
 
   factory UserData.fromJson(Map<String, dynamic> json) => _$UserDataFromJson(json);
   Map<String, dynamic> toJson() => _$UserDataToJson(this);

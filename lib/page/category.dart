@@ -40,7 +40,7 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
 
   void handleNext() async {
     if (tabController.index >= tabController.length - 1) {
-      await save();
+      save();
       Navigator.popUntil(context, ModalRoute.withName('/intro/categories'));
     } else {
       tabController.animateTo(tabController.index + 1);
@@ -53,6 +53,18 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
     await db.collection('users').document(userID).setData({
       'answers': {category.id: answers},
     }, merge: true);
+  }
+
+  String getLabel(int i) {
+    if (i <= 2) {
+      return 'Totalmente Insatisfeito';
+    } else if (i <= 5) {
+      return 'Insatisfeito';
+    } else if (i <= 8) {  
+      return 'Satisfeito';
+    } else {
+      return 'Totalmente Satisfeito';
+    }
   }
 
   @override
@@ -136,7 +148,7 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        SizedBox(height: 32),
+                        SizedBox(height: 40),
                         AnimatedOpacity(
                           opacity: selecting ? 0 : 1,
                           duration: Duration(milliseconds: 200),
@@ -157,23 +169,9 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
                           min: 0,
                           max: 10,
                           divisions: 10,
-                          label: answers[i].toString(),
+                          label: getLabel(answers[i]),
                           onChangeStart: (_) => this.setState(() => selecting = true),
                           onChangeEnd: (_) => this.setState(() => selecting = false),
-                        ),
-                        AnimatedOpacity(
-                          opacity: selecting ? 1 : 0,
-                          duration: Duration(milliseconds: 200),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Totalmente Insatisfeito', style: texts.caption),
-                                Text('Totalmente Satisfeito', style: texts.caption),
-                              ],
-                            ),
-                          ),
                         ),
                       ],
                     ),

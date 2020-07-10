@@ -17,6 +17,7 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
           (k, e) => MapEntry(k, (e as List)?.map((e) => e as int)?.toList()),
         ) ??
         [],
+    satisfaction: json['satisfaction'] as int,
   );
 }
 
@@ -27,4 +28,5 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'city': instance.city,
       'state': instance.state,
       'answers': instance.answers,
+      'satisfaction': instance.satisfaction,
     };

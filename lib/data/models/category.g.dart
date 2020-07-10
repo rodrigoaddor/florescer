@@ -14,6 +14,7 @@ QuestionCategory _$QuestionCategoryFromJson(Map<String, dynamic> json) {
     description: json['description'] as String,
     questions:
         (json['questions'] as List)?.map((e) => e as String)?.toList() ?? [],
+    type: intToType(json['type'] as int),
   );
 }
 
@@ -24,4 +25,5 @@ Map<String, dynamic> _$QuestionCategoryToJson(QuestionCategory instance) =>
       'shortTitle': instance.shortTitle,
       'description': instance.description,
       'questions': instance.questions,
+      'type': typeToInt(instance.type),
     };
