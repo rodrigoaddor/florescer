@@ -30,7 +30,14 @@ final List<String> satisfactionTexts = [
       'vida, espiritualidade e paz de espírito.'
 ];
 
-class ResultIntroPage extends StatelessWidget {
+class ResultIntroPage extends StatefulWidget {
+  @override
+  _ResultIntroPageState createState() => _ResultIntroPageState();
+}
+
+class _ResultIntroPageState extends State<ResultIntroPage> with SingleTickerProviderStateMixin {
+  TabController controller;
+
   String getSatisfactionText(int i) {
     int index;
     if (i <= 9) {
@@ -46,65 +53,165 @@ class ResultIntroPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final texts = theme.textTheme;
-    final data = context.watch<AppData>();
+  void initState() {
+    super.initState();
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            WheelOfLife(
-              Map.fromEntries(
-                data.categories.map(
-                  (category) => MapEntry<String, double>(
-                    category.shortTitle,
-                    (data.user.answers[category.id] ?? []).average(),
-                  ),
+    controller = TabController(vsync: this, length: 3);
+  }
+
+  Widget nextButton(BuildContext context) {
+    return RaisedButton(
+      child: Text('Próximo'),
+      onPressed: () {
+        if (controller.index >= controller.length - 1) {
+          Navigator.popUntil(context, ModalRoute.withName('/intro/categories'));
+        } else {
+          controller.animateTo(controller.index + 1);
+        }
+      },
+    );
+  }
+
+  Widget buildA(BuildContext context) {
+    final texts = Theme.of(context).textTheme;
+    final data = context.watch<AppData>();
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          WheelOfLife(
+            Map.fromEntries(
+              data.categories.map(
+                (category) => MapEntry<String, double>(
+                  category.shortTitle,
+                  (data.user.answers[category.id] ?? []).average(),
                 ),
               ),
-              colors: {
-                'Emocional': Colors.lightBlue[300],
-                'Profissional': Colors.amber[500],
-                'Relacional': Colors.teal[600],
-                'Pessoal': Colors.purple[700],
-              },
-              defaultTextColor: Colors.white,
-              backgroundColor: Colors.white12,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: [
-                    if (data.user.answers.values.any((i) => i.average() < 6))
-                      TextSpan(
-                        style: texts.bodyText2.copyWith(color: Colors.white),
-                        text: 'Se sua potuação foi de 0 a 5 em 1 ou mais áreas, procure '
-                            'dar atenção imediatamente, traçar planos de ação para sair '
-                            'dessa situação, pois poderá afetar um grande números de outras áreas.\n\n'
-                            'Pontuações acima de 6, quer dizer que você possui um bom nível de '
-                            'satisfação ou equilíbrio nessa área, porém importante dar foco '
-                            'naquela área que ficou com pontuação abaixo do nível 5.\n\n\n',
-                      ),
-                    TextSpan(
-                      style: texts.headline6.copyWith(color: Colors.white),
-                      text: 'Satisfação: ${data.user.satisfaction}/35\n\n',
-                    ),
+            colors: {
+              'Emocional': Colors.lightBlue[300],
+              'Profissional': Colors.amber[500],
+              'Relacional': Colors.teal[600],
+              'Pessoal': Colors.purple[700],
+            },
+            defaultTextColor: Colors.white,
+            backgroundColor: Colors.white12,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  if (data.user.answers.values.any((i) => i.average() < 6))
                     TextSpan(
                       style: texts.bodyText2.copyWith(color: Colors.white),
-                      text: '${this.getSatisfactionText(data.user.satisfaction)}',
-                    ),
-                  ],
+                      text: 'Se sua potuação foi de 0 a 5 em 1 ou mais áreas, procure '
+                          'dar atenção imediatamente, traçar planos de ação para sair '
+                          'dessa situação, pois poderá afetar um grande números de outras áreas.\n\n'
+                          'Pontuações acima de 6, quer dizer que você possui um bom nível de '
+                          'satisfação ou equilíbrio nessa área, porém importante dar foco '
+                          'naquela área que ficou com pontuação abaixo do nível 5.\n\n\n',
+                    )
+                ],
+              ),
+            ),
+          ),
+          nextButton(context),
+        ],
+      ),
+    );
+  }
+
+  Widget buildB(BuildContext context) {
+    final texts = Theme.of(context).textTheme;
+    final data = context.watch<AppData>();
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          WheelOfLife(
+            Map.fromEntries(
+              data.categories.map(
+                (category) => MapEntry<String, double>(
+                  category.shortTitle,
+                  (data.user.answers[category.id] ?? []).average(),
                 ),
               ),
             ),
-          ],
-        ),
+            colors: {
+              'Emocional': Colors.lightBlue[300],
+              'Profissional': Colors.amber[500],
+              'Relacional': Colors.teal[600],
+              'Pessoal': Colors.purple[700],
+            },
+            defaultTextColor: Colors.white,
+            backgroundColor: Colors.white12,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Pergunte-se:',
+                  style: texts.bodyText1.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Qual dessas áreas, ao receber um pouco mais de foco, irá '
+                  'influenciar positivamente um maior número de outras áreas?',
+                  textAlign: TextAlign.center,
+                  style: texts.bodyText2.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          nextButton(context),
+        ],
+      ),
+    );
+  }
+
+  Widget buildC(BuildContext context) {
+    final texts = Theme.of(context).textTheme;
+    final data = context.watch<AppData>();
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            'Satisfação: ${data.user.satisfaction}/35\n\n',
+            style: texts.headline6.copyWith(color: Colors.white),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              '${this.getSatisfactionText(data.user.satisfaction)}',
+              style: texts.bodyText2.copyWith(color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          nextButton(context),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: TabBarView(
+        controller: controller,
+        children: [
+          buildA(context),
+          buildB(context),
+          buildC(context),
+        ],
       ),
     );
   }
