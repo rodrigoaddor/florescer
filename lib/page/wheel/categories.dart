@@ -1,53 +1,9 @@
 import 'package:florescer/data/data.dart';
 import 'package:florescer/data/models/category.dart';
-import 'package:florescer/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-final List<String> messages = [
-  'Para passarmos para o próximo passo, te apresento alguns pilares '
-      'importantes da nossa vida, áreas que são fundamentais para '
-      'atingirmos o nosso equilíbrio.',
-  'A Roda da Vida ilustra graficamente qual área de vida temos maior '
-      'insatisfação no momento presente, o que serve como um guia para '
-      'tomada de decisão de onde devemos priorizar nossas ações.',
-  'As ações focadas na área com maior insatisfação vão refletir em '
-      'ganhos nesse eixo, ao resolver essa deficiência a tendência é '
-      'que o grau de insatisfação em todas as demais áreas também '
-      'melhore, pois todas as áreas estão conectadas.',
-  'Quanto mais simétrico o desenho mais equilibrado está a sua vida.',
-  'Esse foi um diagnóstico inicial do mapa de sua vida, '
-      'uma ferramenta de auto-conhecimento.',
-];
-
-class CategoriesIntroPage extends StatelessWidget {
-  void askRedoCategory(BuildContext context, QuestionCategory category) async {
-    final confirmed = await showDialog(
-      context: context,
-      builder: (context) => ConfirmDialog(
-        title: 'Você já respondeu esse pilar',
-        body: 'Tem certeza que deseja respondê-lo de novo?',
-        confirmText: 'Continuar',
-      ),
-    );
-
-    if (confirmed) Navigator.pushNamed(context, '/category/${category.id}');
-  }
-
-  String diagnostic(double value) {
-    if (value < 2) {
-      return 'Extremamente insatisfeito';
-    } else if (value < 4) {
-      return 'Insatisfeito';
-    } else if (value < 6) {
-      return 'Pouco satisfeito';
-    } else if (value < 8) {
-      return 'Satisfeito';
-    } else {
-      return 'Extremamente satisfeito';
-    }
-  }
-
+class WheelCategoriesPage extends StatelessWidget {
   Widget buildCategoryButton(BuildContext context, QuestionCategory category, [bool isAnswered = false]) {
     return !isAnswered
         ? RaisedButton(
@@ -66,10 +22,11 @@ class CategoriesIntroPage extends StatelessWidget {
                 Icon(Icons.check),
               ],
             ),
-            color: Colors.greenAccent[700],
+            disabledColor: Colors.greenAccent[700],
+            disabledTextColor: Colors.black45,
             padding: const EdgeInsets.only(left: 16, right: 12),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(64)),
-            onPressed: () => this.askRedoCategory(context, category),
+            onPressed: null,
           );
   }
 
@@ -103,7 +60,9 @@ class CategoriesIntroPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   style: TextStyle(fontSize: 16),
-                  text: messages[0],
+                  text: 'Para passarmos para o próximo passo, te apresento alguns pilares '
+                      'importantes da nossa vida, áreas que são fundamentais para '
+                      'atingirmos o nosso equilíbrio.',
                 ),
               ),
             ),
@@ -126,7 +85,7 @@ class CategoriesIntroPage extends StatelessWidget {
                         ),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(64)),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/intro/satisfaction');
+                          Navigator.pushNamed(context, '/wheel/result');
                           // final reset = await showDialog(
                           //   context: context,
                           //   builder: (context) => ConfirmDialog(title: 'Resetar respostas'),

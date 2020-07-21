@@ -8,6 +8,7 @@ class WheelOfLife extends StatelessWidget {
   final Color backgroundColor;
   final Color defaultColor;
   final Color defaultTextColor;
+  final Function(int index) onPress;
 
   WheelOfLife(
     this.values, {
@@ -16,19 +17,10 @@ class WheelOfLife extends StatelessWidget {
     this.backgroundColor,
     this.defaultColor,
     this.defaultTextColor,
+    this.onPress,
   });
 
   final double maxRadius = 100;
-
-  String fixSpacing(String name, int index) {
-    if (index == 0) {
-      return name.padRight(24, '\u{00A0}');
-    } else if (index == 2) {
-      return name.padLeft(18, '\u{00A0}');
-    } else {
-      return name;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +32,7 @@ class WheelOfLife extends StatelessWidget {
     final defaultColor = this.defaultColor ?? Colors.lightBlueAccent[700];
     final defaultTextColor = this.defaultTextColor ?? Colors.black;
 
-    final double offset = 135;
+    final double offset = 225;
 
     return Stack(
       children: [
@@ -84,11 +76,17 @@ class WheelOfLife extends StatelessWidget {
             centerSpaceRadius: 0,
             sectionsSpace: 2,
             borderData: FlBorderData(show: false),
+            pieTouchData: PieTouchData(
+              enabled: this.onPress != null,
+              touchCallback: (touch) {
+                if (touch.touchedSectionIndex != null) this.onPress(touch.touchedSectionIndex);
+              },
+            ),
             sections: [
-              for (final entry in this.values.keys.toList(growable: false).asMap().entries)
+              for (final entry in this.values.keys)
                 PieChartSectionData(
                   color: Colors.transparent,
-                  title: fixSpacing(entry.value, entry.key),
+                  title: entry,
                   titleStyle: theme.textTheme.caption.copyWith(color: defaultTextColor),
                   titlePositionPercentageOffset: 1,
                   radius: maxRadius + 15,

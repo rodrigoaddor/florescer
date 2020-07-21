@@ -81,16 +81,25 @@ class IntroPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                width: 140,
-                height: 40,
-                child: RaisedButton(
-                  child: Text('Cadastrar'),
-                  onPressed: () => Navigator.pushNamed(context, '/intro/register'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(64),
+              Column(
+                children: [
+                  RaisedButton(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    child: Text('Fazer login'),
+                    onPressed: () => Navigator.pushNamed(context, '/login'),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(64),
+                    ),
                   ),
-                ),
+                  RaisedButton(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    child: Text('Criar conta'),
+                    onPressed: () => Navigator.pushNamed(context, '/register'),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(64),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

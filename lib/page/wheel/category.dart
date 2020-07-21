@@ -41,7 +41,7 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
   void handleNext() async {
     if (tabController.index >= tabController.length - 1) {
       save();
-      Navigator.popUntil(context, ModalRoute.withName('/intro/categories'));
+      Navigator.popUntil(context, ModalRoute.withName('/wheel/categories'));
     } else {
       tabController.animateTo(tabController.index + 1);
       this.setState(() {});
@@ -53,18 +53,6 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
     await db.collection('users').document(userID).setData({
       'answers': {category.id: answers},
     }, merge: true);
-  }
-
-  String getLabel(int i) {
-    if (i <= 2) {
-      return 'Totalmente Insatisfeito';
-    } else if (i <= 5) {
-      return 'Insatisfeito';
-    } else if (i <= 8) {  
-      return 'Satisfeito';
-    } else {
-      return 'Totalmente Satisfeito';
-    }
   }
 
   @override
@@ -169,7 +157,7 @@ class _CategoryPageState extends State<CategoryPage> with SingleTickerProviderSt
                           min: 0,
                           max: 10,
                           divisions: 10,
-                          label: getLabel(answers[i]),
+                          label: answers[i].toStringAsFixed(0),
                           onChangeStart: (_) => this.setState(() => selecting = true),
                           onChangeEnd: (_) => this.setState(() => selecting = false),
                         ),

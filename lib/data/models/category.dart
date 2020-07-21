@@ -17,6 +17,9 @@ class QuestionCategory {
   @JsonKey(defaultValue: [])
   final List<String> questions;
 
+  @JsonKey(defaultValue: [])
+  final List<String> questionDescriptions;
+
   @JsonKey(fromJson: intToType, toJson: typeToInt)
   final CategoryType type;
 
@@ -26,9 +29,13 @@ class QuestionCategory {
     this.shortTitle,
     this.description,
     this.questions,
+    this.questionDescriptions,
     this.type,
   });
 
   factory QuestionCategory.fromJson(Map<String, dynamic> json) => _$QuestionCategoryFromJson(json);
   Map<String, dynamic> toJson() => _$QuestionCategoryToJson(this);
+
+  @override
+  String toString() => this.shortTitle;
 }

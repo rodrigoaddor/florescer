@@ -1,21 +1,23 @@
 import 'package:florescer/page/admin.dart';
-import 'package:florescer/page/category.dart';
-import 'package:florescer/page/intro/categories.dart';
-import 'package:florescer/page/intro/intro.dart';
-import 'package:florescer/page/intro/register.dart';
-import 'package:florescer/page/intro/result.dart';
-import 'package:florescer/page/intro/satisfaction.dart';
-import 'package:florescer/page/test.dart';
+import 'package:florescer/page/wheel/category.dart';
+import 'package:florescer/page/wheel/categories.dart';
+import 'package:florescer/page/intro.dart';
+import 'package:florescer/page/login.dart';
+import 'package:florescer/page/register.dart';
+import 'package:florescer/page/satisfaction/result.dart';
+import 'package:florescer/page/satisfaction/questions.dart';
+import 'package:florescer/page/wheel/result.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, WidgetBuilder> routes = {
   '/intro': (context) => IntroPage(),
-  '/intro/categories': (context) => CategoriesIntroPage(),
-  '/intro/register': (context) => RegisterIntroPage(),
-  '/intro/satisfaction': (context) => SatisfactionIntroPage(),
-  '/intro/result': (context) => ResultIntroPage(),
+  '/register': (context) => RegisterPage(),
+  '/login': (context) => LoginPage(),
+  '/satisfaction/questions': (context) => SatisfactionIntroPage(),
+  '/satisfaction/result': (context) => ResultIntroPage(),
+  '/wheel/categories': (context) => WheelCategoriesPage(),
+  '/wheel/result': (context) => WheelResultPage(),
   '/admin': (context) => AdminPage(),
-  '/test': (context) => TestPage(),
 };
 
 Route routeGenerator(RouteSettings settings) {

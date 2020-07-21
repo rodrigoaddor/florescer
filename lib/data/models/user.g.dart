@@ -16,7 +16,7 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
     answers: (json['answers'] as Map<String, dynamic>)?.map(
           (k, e) => MapEntry(k, (e as List)?.map((e) => e as int)?.toList()),
         ) ??
-        [],
+        {},
     satisfaction: json['satisfaction'] as int,
   );
 }

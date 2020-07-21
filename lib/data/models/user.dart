@@ -9,7 +9,7 @@ class UserData {
   final String email;
   final String city;
   final String state;
-  @JsonKey(defaultValue: [])
+  @JsonKey(defaultValue: {})
   final Map<String, List<int>> answers;
   final int satisfaction;
 
