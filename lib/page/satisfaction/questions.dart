@@ -64,7 +64,6 @@ class _SatisfactionIntroPageState extends State<SatisfactionIntroPage> with Sing
           centerTitle: true,
         ),
         body: ListView(
-          reverse: true,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -211,7 +210,7 @@ class _SatisfactionIntroPageState extends State<SatisfactionIntroPage> with Sing
                 onPressed: answers.every((controller) => (int.tryParse(controller.text) ?? 0) > 0) ? this.save : null,
               ),
             ),
-          ].reversed.toList(growable: false),
+          ],
         ),
       ),
     );

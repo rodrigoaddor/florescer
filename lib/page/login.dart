@@ -25,6 +25,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var email = TextEditingController();
   var password = TextEditingController();
+  var recoveryEmail = TextEditingController();
 
   void login(BuildContext context) {
     if (!Form.of(context).validate()) return;
@@ -80,6 +81,43 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void forgotPassword(BuildContext context) async {
+    recoveryEmail.text = this.email.text;
+
+    final email = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Recuperar senha'),
+        content: TextFormField(
+          controller: recoveryEmail,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+            labelText: 'Email',
+          ),
+        ),
+        actions: [
+          FlatButton(
+            child: Text('Cancelar'),
+            onPressed: () => Navigator.pop(context),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: RaisedButton(
+              child: Text('Continuar'),
+              onPressed: () => Navigator.pop(context, recoveryEmail.text),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (email != null) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Instruções para recuperar sua senha foram enviados ao seu email.'),
+      ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -112,9 +150,10 @@ class _LoginPageState extends State<LoginPage> {
                   validator: validateRequired,
                   obscureText: true,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-                      labelText: 'Senha',
-                      counterText: '\n'),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+                    labelText: 'Senha',
+                    counterText: '\n',
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16),
@@ -147,6 +186,13 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: null,
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: FlatButton(
+                    child: Text('Esqueci minha senha'),
+                    onPressed: () => this.forgotPassword(context),
+                  ),
+                )
               ],
             ),
           ),

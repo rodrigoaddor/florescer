@@ -127,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     super.didChangeDependencies();
 
     final bool fromLogin = ModalRoute.of(context).settings.arguments;
-    if (fromLogin && !doneFromLoginCheck) {
+    if (fromLogin == true && !doneFromLoginCheck) {
       () async {
         final account = await GoogleSignIn(scopes: ['profile', 'email']).signInSilently();
         if (account != null) {

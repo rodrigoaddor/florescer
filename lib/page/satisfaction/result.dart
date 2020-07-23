@@ -28,24 +28,29 @@ final List<String> satisfactionTexts = [
       'vida, espiritualidade e paz de espírito.'
 ];
 
+final List<String> satisfactionEmojis = [
+  '😩',
+  '😔',
+  '😐',
+  '😃',
+];
+
 class ResultIntroPage extends StatefulWidget {
   @override
   _ResultIntroPageState createState() => _ResultIntroPageState();
 }
 
 class _ResultIntroPageState extends State<ResultIntroPage> with SingleTickerProviderStateMixin {
-  String getSatisfactionText(int i) {
-    int index;
+  int getSatisfactionIndex(int i) {
     if (i <= 9) {
-      index = 0;
+      return 0;
     } else if (i <= 14) {
-      index = 1;
+      return 1;
     } else if (i <= 19) {
-      index = 2;
+      return 2;
     } else {
-      index = 3;
+      return 3;
     }
-    return satisfactionTexts[index];
   }
 
   @override
@@ -53,7 +58,7 @@ class _ResultIntroPageState extends State<ResultIntroPage> with SingleTickerProv
     final theme = Theme.of(context);
     final texts = theme.textTheme;
 
-    final data = context.watch<AppData>();
+    final satisfaction = context.select((AppData data) => data.user.satisfaction);
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
@@ -67,15 +72,21 @@ class _ResultIntroPageState extends State<ResultIntroPage> with SingleTickerProv
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 32),
+              child: Text(
+                satisfactionEmojis[getSatisfactionIndex(satisfaction)],
+                style: texts.headline1.copyWith(color: Colors.black),
+              ),
+            ),
             Text(
-              'Resultado: ${data.user.satisfaction} pontos',
+              'Resultado: $satisfaction pontos',
               style: texts.headline6.copyWith(color: Colors.white),
             ),
-            SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               child: Text(
-                '${this.getSatisfactionText(data.user.satisfaction)}'.replaceAll('\n', '\n\n'),
+                '${satisfactionTexts[getSatisfactionIndex(satisfaction)]}'.replaceAll('\n', '\n\n'),
                 style: texts.bodyText2.copyWith(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
