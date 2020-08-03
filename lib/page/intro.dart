@@ -14,6 +14,8 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final texts = theme.textTheme.apply(bodyColor: Colors.white);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       drawer: Drawer(
@@ -55,7 +57,7 @@ class IntroPage extends StatelessWidget {
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                        style: TextStyle(fontSize: 20),
+                        style: texts.headline6,
                         children: [
                           TextSpan(text: 'Olá, eu sou a '),
                           TextSpan(text: 'Florescer', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -72,7 +74,7 @@ class IntroPage extends StatelessWidget {
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                        style: TextStyle(fontSize: 16),
+                        style: texts.bodyText1.copyWith(fontSize: 16),
                         text: 'Estou aqui para te ouvir e te ajudar a '
                             'resolver situações desafiadoras, bem como comportamentos, sentimentos e '
                             'emoções que você não está conseguindo gerenciar.',

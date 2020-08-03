@@ -32,10 +32,12 @@ class WheelCategoriesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final texts = theme.textTheme;
     final data = context.watch<AppData>();
 
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: theme.primaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -59,7 +61,7 @@ class WheelCategoriesPage extends StatelessWidget {
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  style: TextStyle(fontSize: 16),
+                  style: texts.bodyText1.copyWith(fontSize: 16),
                   text: 'Para passarmos para o próximo passo, te apresento alguns pilares '
                       'importantes da nossa vida, áreas que são fundamentais para '
                       'atingirmos o nosso equilíbrio.',
