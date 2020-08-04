@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:florescer/utils/input.dart';
 import 'package:florescer/utils/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -116,6 +115,9 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     if (email != null) {
+      try {
+        auth.sendPasswordResetEmail(email: email);
+      } catch (e) {}
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text('Instruções para recuperar sua senha foram enviados ao seu email.'),
       ));
