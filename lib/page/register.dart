@@ -4,6 +4,7 @@ import 'package:florescer/data/data.dart';
 import 'package:florescer/utils/input.dart';
 import 'package:florescer/utils/loading.dart';
 import 'package:florescer/widget/confirm_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -160,176 +161,186 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
         child: Builder(
           builder: (context) => SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: RaisedButton.icon(
-                    icon: FaIcon(
-                      FontAwesomeIcons.google,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: RaisedButton.icon(
+                      icon: FaIcon(
+                        FontAwesomeIcons.google,
+                      ),
+                      label: Text('Entrar com o Google'),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      onPressed: providerLogin == null ? () => this.signInWithGoogle(context) : null,
                     ),
-                    label: Text('Entrar com o Google'),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    onPressed: providerLogin == null ? () => this.signInWithGoogle(context) : null,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: RaisedButton.icon(
-                    icon: FaIcon(FontAwesomeIcons.facebookF),
-                    label: Text('Entrar com o Facebook'),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: RaisedButton.icon(
+                      icon: FaIcon(FontAwesomeIcons.facebookF),
+                      label: Text('Entrar com o Facebook'),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      onPressed: null,
                     ),
-                    onPressed: null,
                   ),
-                ),
-                TextFormField(
-                  controller: name,
-                  enabled: providerLogin == null,
-                  autovalidate: name.text.length > 0,
-                  validator: validateRequired,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-                      labelText: 'Nome',
-                      counterText: '\n'),
-                ),
-                TextFormField(
-                  controller: email,
-                  enabled: providerLogin == null,
-                  autovalidate: email.text.length > 0,
-                  validator: validateEmail,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-                      labelText: 'Email',
-                      counterText: '\n'),
-                ),
-                TextFormField(
-                  controller: phone,
-                  autovalidate: phone.text.length > 0,
-                  validator: validateRequired,
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [
-                    MaskTextInputFormatter(mask: '(##) #####-####', filter: {'#': RegExp(r'\d')}),
-                  ],
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-                      labelText: 'Celular',
-                      counterText: '\n'),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: TextFormField(
-                        controller: city,
-                        autovalidate: city.text.length > 0,
-                        validator: validateRequired,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.horizontal(left: Radius.circular(6)),
+                  TextFormField(
+                    controller: name,
+                    enabled: providerLogin == null,
+                    autovalidate: name.text.length > 0,
+                    validator: validateRequired,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+                        labelText: 'Nome',
+                        counterText: '\n'),
+                  ),
+                  TextFormField(
+                    controller: email,
+                    enabled: providerLogin == null,
+                    autovalidate: email.text.length > 0,
+                    validator: validateEmail,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+                        labelText: 'Email',
+                        counterText: '\n'),
+                  ),
+                  TextFormField(
+                    controller: phone,
+                    autovalidate: phone.text.length > 0,
+                    validator: validateRequired,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      MaskTextInputFormatter(mask: '(##) #####-####', filter: {'#': RegExp(r'\d')}),
+                    ],
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+                        labelText: 'Celular',
+                        counterText: '\n'),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: TextFormField(
+                          controller: city,
+                          autovalidate: city.text.length > 0,
+                          validator: validateRequired,
+                          decoration: const InputDecoration(
+                            border: kIsWeb
+                                ? UnderlineInputBorder()
+                                : OutlineInputBorder(
+                                    borderRadius: BorderRadius.horizontal(left: Radius.circular(6)),
+                                  ),
+                            labelText: 'Cidade',
+                            counterText: '\n',
+                            helperText: '\n',
                           ),
-                          labelText: 'Cidade',
-                          counterText: '\n',
-                          helperText: '\n',
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: TextFormField(
-                        controller: state,
-                        autovalidate: state.text.length > 0,
-                        validator: validateRequired,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.horizontal(right: Radius.circular(6)),
+                      Expanded(
+                        flex: 5,
+                        child: TextFormField(
+                          controller: state,
+                          autovalidate: state.text.length > 0,
+                          validator: validateRequired,
+                          decoration: InputDecoration(
+                            border: kIsWeb
+                                ? UnderlineInputBorder()
+                                : OutlineInputBorder(
+                                    borderRadius: BorderRadius.horizontal(right: Radius.circular(6)),
+                                  ),
+                            labelText: 'Estado',
+                            counterText: '\n',
                           ),
-                          labelText: 'Estado',
-                          counterText: '\n',
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                AnimatedSize(
-                  vsync: this,
-                  duration: Duration(milliseconds: 300),
-                  child: providerLogin != null
-                      ? SizedBox.shrink()
-                      : Stack(
-                          alignment: Alignment.bottomLeft,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: password,
-                                    validator: this.validatePassword,
-                                    obscureText: true,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.horizontal(left: Radius.circular(6)),
+                    ],
+                  ),
+                  AnimatedSize(
+                    vsync: this,
+                    duration: Duration(milliseconds: 300),
+                    child: providerLogin != null
+                        ? SizedBox.shrink()
+                        : Stack(
+                            alignment: Alignment.bottomLeft,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: password,
+                                      validator: this.validatePassword,
+                                      obscureText: true,
+                                      decoration: const InputDecoration(
+                                        border: kIsWeb
+                                            ? UnderlineInputBorder()
+                                            : OutlineInputBorder(
+                                                borderRadius: BorderRadius.horizontal(left: Radius.circular(6)),
+                                              ),
+                                        labelText: 'Senha',
+                                        helperText: '',
                                       ),
-                                      labelText: 'Senha',
-                                      helperText: '',
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: passwordConfirm,
-                                    validator: this.validatePassword,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.horizontal(right: Radius.circular(6)),
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: passwordConfirm,
+                                      validator: this.validatePassword,
+                                      obscureText: true,
+                                      decoration: InputDecoration(
+                                        border: kIsWeb
+                                            ? UnderlineInputBorder()
+                                            : OutlineInputBorder(
+                                                borderRadius: BorderRadius.horizontal(right: Radius.circular(6)),
+                                              ),
+                                        labelText: 'Confirmar',
+                                        helperText: '',
                                       ),
-                                      labelText: 'Confirmar',
-                                      helperText: '',
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 12, top: 8),
-                              child: AnimatedSwitcher(
-                                duration: Duration(milliseconds: 200),
-                                child: Text(
-                                  passwordError,
-                                  key: ValueKey('text-$passwordError'),
-                                  style: texts.caption.copyWith(color: theme.errorColor),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12, top: 8),
+                                child: AnimatedSwitcher(
+                                  duration: Duration(milliseconds: 200),
+                                  child: Text(
+                                    passwordError,
+                                    key: ValueKey('text-$passwordError'),
+                                    style: texts.caption.copyWith(color: theme.errorColor),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: RaisedButton(
-                    onPressed: () => this.register(context),
-                    child: Text('Registrar'),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                    color: theme.colorScheme.primary,
-                    textColor: Colors.white,
+                            ],
+                          ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4, bottom: 12),
-                  child: RaisedButton(
-                    onPressed: () => this.register(context, true),
-                    child: Text('Registrar como Profissional'),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: RaisedButton(
+                      onPressed: () => this.register(context),
+                      child: Text('Registrar'),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                      color: theme.colorScheme.primary,
+                      textColor: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4, bottom: 12),
+                    child: RaisedButton(
+                      onPressed: () => this.register(context, true),
+                      child: Text('Registrar como Profissional'),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
