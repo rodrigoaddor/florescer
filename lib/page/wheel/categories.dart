@@ -26,7 +26,8 @@ class WheelCategoriesPage extends StatelessWidget {
             disabledTextColor: Colors.black45,
             padding: const EdgeInsets.only(left: 16, right: 12),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(64)),
-            onPressed: null,
+            // Allows for a question to be re-answered
+            onPressed: () => Navigator.pushNamed(context, '/category/${category.id}'),
           );
   }
 
