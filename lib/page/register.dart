@@ -90,12 +90,16 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     if (providerLogin == null) {
       try {
         await auth.createUserWithEmailAndPassword(email: email.text, password: password.text);
-      } on PlatformException catch (e) {
+      } catch (e) {
+        String code = e.code;
+        if (code.contains('/')) {
+          code = ['ERROR', ...code.split('/')[1].split('-')].join('_').toUpperCase();
+        }
         await showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: Text('Erro ao criar conta'),
-            content: Text(errorMessages.containsKey(e.code) ? errorMessages[e.code] : 'Erro desconhecido.'),
+            content: Text(errorMessages.containsKey(code) ? errorMessages[code] : 'Erro desconhecido:\n${e.code}'),
             actions: [
               FlatButton(
                 child: Text('Ok'),

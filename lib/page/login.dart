@@ -36,9 +36,13 @@ class _LoginPageState extends State<LoginPage> {
           email: email.text,
           password: password.text,
         );
-      } on PlatformException catch (e) {
+      } catch (e) {
+        String code = e.code;
+        if (code.contains('/')) {
+          code = ['ERROR', ...code.split('/')[1].split('-')].join('_').toUpperCase();
+        }
         Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text(errorMessages[e.code]),
+          content: Text(errorMessages[code] ?? 'Erro desconhecido: ${e.code}'),
         ));
       }
     });
