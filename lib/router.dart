@@ -1,4 +1,5 @@
 import 'package:florescer/page/admin.dart';
+import 'package:florescer/page/end.dart';
 import 'package:florescer/page/wheel/category.dart';
 import 'package:florescer/page/wheel/categories.dart';
 import 'package:florescer/page/intro.dart';
@@ -17,6 +18,7 @@ final Map<String, WidgetBuilder> routes = {
   '/satisfaction/result': (context) => ResultIntroPage(),
   '/wheel/categories': (context) => WheelCategoriesPage(),
   '/wheel/result': (context) => WheelResultPage(),
+  '/end': (context) => EndPage(),
   '/admin': (context) => AdminPage(),
 };
 

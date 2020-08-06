@@ -34,7 +34,7 @@ class WheelCategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final texts = theme.textTheme;
+    final texts = theme.textTheme.apply(bodyColor: Colors.white);
     final data = context.watch<AppData>();
 
     return Scaffold(

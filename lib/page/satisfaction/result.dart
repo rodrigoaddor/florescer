@@ -91,6 +91,10 @@ class _ResultIntroPageState extends State<ResultIntroPage> with SingleTickerProv
                 textAlign: TextAlign.center,
               ),
             ),
+            RaisedButton(
+              child: Text('Próximo'),
+              onPressed: () => Navigator.pushNamed(context, '/end'),
+            )
           ],
         ),
       ),

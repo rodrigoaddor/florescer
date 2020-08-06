@@ -26,12 +26,11 @@ jobs:
       - name: Build APK
         env:
           GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
-          # KEY_PROPERTIES: ${{ secrets.KEY_PROPERTIES }}
-          # KEYSTORE: ${{ secrets.KEYSTORE }} 
-        # run: |
-        #   echo "$KEY_PROPERTIES" | base64 --decode > "android/key.properties"
-        #   echo "$KEYSTORE" | base64 --decode > "key.jks"
+          KEY_PROPERTIES: ${{ secrets.KEY_PROPERTIES }}
+          KEYSTORE: ${{ secrets.KEYSTORE }} 
         run: |
+          echo "$KEY_PROPERTIES" | base64 --decode > "android/key.properties"
+          echo "$KEYSTORE" | base64 --decode > "key.jks"
           echo "$GOOGLE_SERVICES" | base64 --decode > "android/app/google-services.json"
           flutter build apk --split-per-abi --build-number ${{ github.run_number }} --build-name ${GITHUB_REF:10}
           cd build/app/outputs/apk/release
